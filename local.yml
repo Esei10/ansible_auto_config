@@ -40,15 +40,6 @@
       name: gdm
       state: started
       enabled: true
-
-  - name: download aur helper for ansible
-    git:
-      repo: https://github.com/pigmonkey/ansible-aur.git
-      dest: /tmp/install
-  - name: install aur helper for ansible
-    copy:
-      src: /tmp/
-      dest: /usr/share/ansible
    
   - name: install packages
     package:
