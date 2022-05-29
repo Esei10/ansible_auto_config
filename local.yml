@@ -20,13 +20,6 @@
       tags: always
       pacman:
         name: zsh,grml-zsh-config
-    - name: install nvidia xorg gnome
-      pacman:
-        name: nvidia,nvidia-utils,lib32-nvidia-utils,xorg-server,gnome,gdm
-    - name: enable gdm
-      systemd:
-        name: gdm
-        state: enabled
 
     - name: add apeku user
       tags: always
@@ -38,6 +31,16 @@
   - name: install flatpak, snap
     package:
       name: flatpak,snapd  
+  
+  - name: install nvidia xorg gnome
+    pacman:
+      name: nvidia,nvidia-utils,lib32-nvidia-utils,xorg-server,gnome,gdm
+  - name: enable gdm
+    systemd:
+      name: gdm
+      state: started
+      enabled: true
+
   - name: download aur helper for ansible
     git:
       repo: https://github.com/pigmonkey/ansible-aur.git
