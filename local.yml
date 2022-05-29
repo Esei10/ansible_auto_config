@@ -46,11 +46,7 @@
     copy:
       src: /tmp/insatall/aur
       dest: /usr/share/ansible
-  - name: Install appimageLauncher
-    aur:
-      name: appimagelauncher
-      user: apeku
-      
+   
   - name: install packages
     package:
       name: htop,openssh,terminator,codeblocks,base-devel,ark,discord,firefox,python-psutil
