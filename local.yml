@@ -47,7 +47,7 @@
       dest: /tmp/install
   - name: install aur helper for ansible
     copy:
-      src: /tmp/insatall/aur
+      src: /tmp/
       dest: /usr/share/ansible
    
   - name: install packages
