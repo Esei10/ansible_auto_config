@@ -6,7 +6,7 @@
   tasks:
   - name: install packages
     package:
-      name: htop,openssh,terminator,spotifyd,spotify-launcher,codeblocks,base-devel,ark,discord,firefox
+      name: htop,openssh,terminator,spotifyd,spotify-launcher,codeblocks,base-devel,ark,discord,firefox,python-psutil,zsh,grml-zsh-config
   - name: copy wallpaper file
     copy:
       src: files/wallpaper.png
@@ -25,5 +25,20 @@
     dconf:
       key: "/org/gnome/destop/background/picture-options" 
       value: "'zoom'"
-
-
+  - name: add ansible user
+    user:
+      name: velociraptor
+      system: yes
+  - name: set up sudo for ansible user
+    copy:
+      src: files/sudoer_velociraptor
+      dest: /etc/sudoers.d/velociraptor
+      owner: root
+      group: root
+      mode: 0440
+  - name: add ansible-pull cron job
+    cron:
+      name: ansible auto-provision
+      user: velociraptor
+      minute: "*/10"
+      job: ansible-pull -o -U https://github.com/Esei10/ansible_auto_config.git
