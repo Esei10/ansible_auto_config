@@ -28,9 +28,9 @@
         shell: /bin/zsh
         append: yes
   tasks: 
-  - name: install flatpak, snap
+  - name: install flatpak
     package:
-      name: flatpak,snapd  
+      name: flatpak  
   
   - name: install nvidia xorg gnome
     pacman:
