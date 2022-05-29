@@ -2,11 +2,58 @@
 - hosts: 127.0.0.1
   connection: local
   become: true
-  
-  tasks:
+
+  pre_tasks:
+    - name: pre-run | update package cache (arch)
+      tags: always
+      pacman: update_cache=yes
+      changed_when: False
+      when: ansible_distribution == "Archlinux"
+
+    - name: pre-run | update package cache (debian, etc)
+      tags: always
+      apt: update_cache=yes
+      changed_when: False
+      when: ansible_distribution in ["Debian", "Ubuntu"]
+   
+    - name: install zsh + theme
+      tags: always
+      pacman:
+        name: zsh,grml-zsh-config
+    - name: install nvidia xorg gnome
+      pacman:
+        name: nvidia,nvidia-utils,lib32-nvidia-utils,xorg-server,gnome,gdm
+    - name: enable gdm
+      systemd:
+        name: gdm
+        state: enabled
+
+    - name: add apeku user
+      tags: always
+      user:
+        name: apeku
+        shell: /bin/zsh
+        append: yes
+  tasks: 
+  - name: install flatpak, snap
+    package:
+      name:flatpak, snapd  
+  - name: download aur helper for ansible
+    git:
+      repo: https://github.com/pigmonkey/ansible-aur.git
+      dest: /tmp/install
+  - name: install aur helper for ansible
+    copy:
+      src: /tmp/insatall/aur
+      dest: /usr/share/ansible
+  - name: Install appimageLauncher
+    aur:
+      name: appimagelauncher
+      user: apeku
+      
   - name: install packages
     package:
-      name: htop,openssh,terminator,spotifyd,spotify-launcher,codeblocks,base-devel,ark,discord,firefox,python-psutil,zsh,grml-zsh-config
+      name: htop,openssh,terminator,codeblocks,base-devel,ark,discord,firefox,python-psutil
   - name: copy wallpaper file
     copy:
       src: files/wallpaper.png
