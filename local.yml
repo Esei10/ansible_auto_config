@@ -37,7 +37,7 @@
   tasks: 
   - name: install flatpak, snap
     package:
-      name:flatpak, snapd  
+      name:flatpak,snapd  
   - name: download aur helper for ansible
     git:
       repo: https://github.com/pigmonkey/ansible-aur.git
